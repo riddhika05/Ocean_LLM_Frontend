@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 
 async function askQuestion(question) {
@@ -51,6 +52,11 @@ function App() {
       <header className="text-center mb-4">
         <h1 className="display-6 mb-2">Ocean Data Chatbot</h1>
         <p className="text-muted m-0">Ask domain-specific questions on salinity, currents, and SST.</p>
+        <div className="mt-3">
+          <Link to="/dataset" className="btn btn-outline-primary">
+            📊 View Dataset Info
+          </Link>
+        </div>
       </header>
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
