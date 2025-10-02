@@ -20,7 +20,7 @@ export default function DatasetInfo() {
       setLoading(true)
       setError("")
       try {
-        const res = await fetch('http://127.0.0.1:8000/dataset/info')
+        const res = await fetch('https://ocean-llm-xu4c.onrender.com/dataset/info')
         const data = await res.json()
         if (!isMounted) return
         if (data.error) {
