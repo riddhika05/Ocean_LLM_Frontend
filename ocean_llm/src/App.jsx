@@ -4,7 +4,7 @@ import './App.css'
 
 async function askQuestion(question) {
   try {
-    const response = await fetch("https://ocean-llm-xu4c.onrender.com/query", {
+    const response = await fetch("https://ocean-llm-1.onrender.com/query", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,9 +26,34 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const sampleQueries = [
-    "What is the average salinity in the region lat 8-12, lon 75-78?",
-    "What is the ocean current direction at lat=15, lon=85 on 2024-08-15?",
-    "What is the maximum sea surface temperature and when does it occur?",
+    {
+      category: "Direct Query",
+      queries: [
+        "What is the salinity at lat=10, lon=75?"
+      ]
+    },
+    {
+      category: "Aggregate Query", 
+      queries: [
+        "What is the average salinity in the region lat 8-12, lon 75-78?",
+        "What's the average temperature?",
+        "What's the maximum temperature?"
+      ]
+    },
+    {
+      category: "Temporal Query",
+      queries: [
+        "What is the ocean current direction at lat=15, lon=85 on 2024-08-15?"
+      ]
+    },
+    {
+      category: "Semantic Query",
+      queries: [
+        "Tell me about seasonal temperature patterns",
+        "Where are the warmest areas?",
+        "What's the salinity variation?"
+      ]
+    }
   ]
 
   const handleSubmit = async (e) => {
@@ -57,6 +82,23 @@ function App() {
             📊 View Dataset Info
           </Link>
         </div>
+        <div className="mt-3">
+          <div className="card card-glass">
+            <div className="card-body">
+              <h6 className="card-title mb-2">📊 Bay of Bengal Dataset</h6>
+              <div className="row">
+                <div className="col-6">
+                  <small className="text-muted">Latitude Range:</small>
+                  <div className="fw-semibold">20° - 22.5°</div>
+                </div>
+                <div className="col-6">
+                  <small className="text-muted">Longitude Range:</small>
+                  <div className="fw-semibold">88° - 90.5°</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
@@ -79,20 +121,25 @@ function App() {
           {error && <div className="alert alert-danger">{error}</div>}
 
           <div className="mb-4">
-            <div className="mb-2">Try a sample query:</div>
-            <div className="d-flex flex-wrap gap-2">
-              {sampleQueries.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  className="chip"
-                  onClick={() => setQuestion(q)}
-                  title="Click to use this query"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
+            <div className="mb-3">Try sample queries:</div>
+            {sampleQueries.map((category, categoryIndex) => (
+              <div key={categoryIndex} className="mb-3">
+                <div className="fw-semibold mb-2 text-primary">{category.category}</div>
+                <div className="d-flex flex-wrap gap-2">
+                  {category.queries.map((query, queryIndex) => (
+                    <button
+                      key={`${categoryIndex}-${queryIndex}`}
+                      type="button"
+                      className="chip"
+                      onClick={() => setQuestion(query)}
+                      title="Click to use this query"
+                    >
+                      {query}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="card card-glass">
